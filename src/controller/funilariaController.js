@@ -2,8 +2,7 @@ import { AlterarPedido, inserirPedido, TodosPedidos } from '../Repository/funila
 
 import multer from 'multer'
 import { Router } from 'express'
-import res from 'express/lib/response';
-import req from 'express/lib/request';
+
 
 const server =Router();
 
