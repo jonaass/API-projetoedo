@@ -1,7 +1,8 @@
-import { inserirPedido } from '../Repository/funilariaRepository.js'
+import { inserirPedido, TodosPedidos } from '../Repository/funilariaRepository.js'
 
 import multer from 'multer'
 import { Router } from 'express'
+import res from 'express/lib/response';
 
 const server =Router();
 
@@ -53,6 +54,29 @@ server.post('/pedido' , async (req, resp) =>{
 
         resp.send(PedidoInserido)
 
+    } 
+    catch (err) {
+        resp.status(400).send({
+            erro:err.message
+        })
+    }
+})
+
+server.get('/pedidos' ,async (req, resp) =>{
+    try {
+        const resposta = await TodosPedidos();
+        resp.send(resposta);
+    } 
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+} )
+
+server.delete('/pedidos/:id', async (req,resp) =>{
+    try {
+        
     } 
     catch (err) {
         resp.status(400).send({

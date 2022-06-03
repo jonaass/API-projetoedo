@@ -10,3 +10,53 @@ export async function inserirPedido(pedido) {
      
     return pedido;
 }
+
+export async function TodosPedidos() {
+    const comando =
+    `
+    id_pedido           id,
+    nm_cliente          nome,
+    ds_endereco		    endereco,
+    dt_atendimento		atendomento,
+    ds_telefone		    telefone,
+    nm_carro		    Carro,
+    dt_anoCarro		    anoCarro,
+    ds_placa		    placa,
+    ds_problema		    problema,
+    ds_pecas		    pecas,
+    vl_orcamento	    orcamento `
+    
+    const [linhas] = await con.query(comando);
+    return linhas;
+}
+
+export async function RemoverPedido(id) {
+    const comando = 
+    `
+    DELETE FROM tb_pedidos
+  WHERE id_pedidos = ?
+    `
+    const [resposta] = await con.query(comando,[id]);
+    return resposta.affectedRows
+}
+
+export async function AlterarPedido(id,pedido) {
+const comando =
+`UPDATE 
+nm_cliente      ?
+ds_endereco     ?
+dt_atendimento  ?
+ds_telefone     ?
+nm_carro        ?
+dt_anoCarro     ?
+ds_placa        ?
+ds_problema     ?
+ds_pecas        ?
+vl_orcamento    ?  `
+
+const [resposta] = await con.query(comando, [pedido.cliente, pedido.endereco, pedido.atendimento, pedido.telefone, pedido.carro, pedido.anoCarro, pedido.placa, pedido.problema, pedido.pecas, pedido.orcamento])
+return resposta.affectedRows;
+
+}
+
+
