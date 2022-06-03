@@ -1,7 +1,7 @@
 import { login } from '../Repository/usuarioRepository.js'
 
 import { Router } from 'express';
-const server= Router();
+const server = Router();
 
 
 server.post('/usuario/login', async (req, resp) => {
@@ -10,7 +10,7 @@ server.post('/usuario/login', async (req, resp) => {
 
       const resposta = await  login(email,senha);
       if (!resposta) {
-          throw new Error('Crendenciais Chatas');
+          throw new Error('Eu to louco');
       }
 
       resp.send(resposta)

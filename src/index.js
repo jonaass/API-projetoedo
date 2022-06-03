@@ -10,4 +10,6 @@ const server=express();
 server.use(cors());
 server.use(express.json());
 
-server.listen(process.env.PORT, () => console.log(`API on na pista ${process.env.PORT}`))
+server.use(usuarioController);
+
+server.listen(process.env.PORT, () => console.log(`API online ${process.env.PORT}`))
