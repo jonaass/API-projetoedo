@@ -3,8 +3,18 @@ import { con } from './connection.js'
 export async function inserirPedido(pedido) {
     const comando = 
     `
-    insert into tb_pedido(nm_cliente, ds_endereco, dt_atendimento, ds_telefone, nm_carro, dt_anoCarro, ds_placa, ds_problema, ds_pecas, vl_orcamento)
-                   values( ?,?, ?, ?, ?, ?, ?, ?, ?, ?) `
+    insert into tb_pedido(
+        nm_cliente,
+        ds_endereco,
+        dt_atendimento, 
+        ds_telefone,
+        nm_carro,
+        dt_anoCarro,
+        ds_placa, 
+        ds_problema,
+        ds_pecas,
+        vl_orcamento)
+        values( ?,?, ?, ?, ?, ?, ?, ?, ?, ?) `
     const [resposta] = await con.query(comando, [pedido.cliente, pedido.endereco, pedido.atendimento, pedido.telefone, pedido.carro, pedido.anoCarro, pedido.placa, pedido.problema, pedido.pecas, pedido.orcamento]);
     pedido.id =  resposta.insertId;
      
@@ -42,21 +52,25 @@ export async function RemoverPedido(id) {
 
 export async function AlterarPedido(id,pedido) {
 const comando =
-`UPDATE 
-nm_cliente      ?
-ds_endereco     ?
-dt_atendimento  ?
-ds_telefone     ?
-nm_carro        ?
-dt_anoCarro     ?
-ds_placa        ?
-ds_problema     ?
-ds_pecas        ?
-vl_orcamento    ?  `
+`UPDATE  tb_pedido
+set
+nm_cliente      = ?,
+ds_endereco     = ?,
+dt_atendimento  = ?,
+ds_telefone     = ?,
+nm_carro        = ?,
+dt_anoCarro     = ?,
+ds_placa        = ?,
+ds_problema     = ?,
+ds_pecas        = ?,
+vl_orcamento    = ?  
+WHERE id_pedido = ?
+`
 
-const [resposta] = await con.query(comando, [pedido.cliente, pedido.endereco, pedido.atendimento, pedido.telefone, pedido.carro, pedido.anoCarro, pedido.placa, pedido.problema, pedido.pecas, pedido.orcamento])
+const [resposta] = await con.query(comando, [pedido.cliente, pedido.endereco, pedido.atendimento, pedido.telefone, pedido.carro, pedido.anoCarro, pedido.placa, pedido.problema, pedido.pecas, pedido.orcamento, id])   
 return resposta.affectedRows;
 
 }
 
-
+//pedido.id = resposta.insertId;
+//return pedido

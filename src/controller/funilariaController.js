@@ -1,4 +1,4 @@
-import { AlterarPedido, inserirPedido, TodosPedidos } from '../Repository/funilariaRepository.js'
+import { AlterarPedido, inserirPedido, TodosPedidos, RemoverPedido} from '../Repository/funilariaRepository.js'
 
 import multer from 'multer'
 import { Router } from 'express'
@@ -14,7 +14,7 @@ server.post('/pedido' , async (req, resp) =>{
             throw new Error('Nome do cliente é obrigatorio!');
         }
 
-        if (!pedido.endereço) {
+        if (!pedido.endereco) {
             throw new Error('endereço do pedido é obrigatorio!');
         }
 
@@ -42,11 +42,11 @@ server.post('/pedido' , async (req, resp) =>{
             throw new Error('problema do Carro é obrigatorio!');
         }
 
-        if (!pedido.peças) {
+        if (!pedido.pecas) {
             throw new Error('peças do Carro é obrigatorio!');
         }
 
-        if (!pedido.orçamento) {
+        if (!pedido.orcamento) {
             throw new Error('orçamento do Carro é obrigatorio!');
         }
 
@@ -76,7 +76,9 @@ server.get('/pedidos' ,async (req, resp) =>{
 
 server.delete('/pedidos/:id', async (req,resp) =>{
     try {
-        
+        const {id} = req.params;
+        const resposta =await RemoverPedido(id);
+        resp.status(206).send(resposta);
     } 
     catch (err) {
         resp.status(400).send({
@@ -86,16 +88,16 @@ server.delete('/pedidos/:id', async (req,resp) =>{
 })
 
 
-server.put('/pedidos/:carro', async (req,resp) => {
+server.put('/pedidos/:id', async (req,resp) => {
     try {
-    const { carro } = req.params;
+    const { id } = req.params;
     const pedidos =req.body;
     
     if (!pedidos.cliente) {
         throw new Error('Nome do cliente é obrigatorio!');
     }
 
-    if (!pedidos.endereço) {
+    if (!pedidos.endereco) {
         throw new Error('endereço do pedido é obrigatorio!');
     }
 
@@ -123,15 +125,15 @@ server.put('/pedidos/:carro', async (req,resp) => {
         throw new Error('problema do Carro é obrigatorio!');
     }
 
-    if (!pedidos.peças) {
+    if (!pedidos.pecas) {
         throw new Error('peças do Carro é obrigatorio!');
     }
 
-    if (!pedidos.orçamento) {
+    if (!pedidos.orcamento) {
         throw new Error('orçamento do Carro é obrigatorio!');
     }
 
-const resposta= await AlterarPedido( carro ,pedidos)
+const resposta= await AlterarPedido(pedidos, id)
 if (resposta != 1) {
     throw new Error ('Burro kkk');
 }
